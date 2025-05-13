@@ -1,9 +1,9 @@
 # Organizational-Network-Intelligence
 A project exploring internal communication dynamics through network analysis and machine learning, aimed at uncovering hidden influencers, optimizing collaboration, and strengthening organizational insight.
 
-# Organizational-Network-Intelligence
-A project exploring internal communication dynamics through network analysis and machine learning, aimed at uncovering hidden influencers, optimizing collaboration, and strengthening organizational insight.
-
+# Table of Content 
+- [Introduction](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#introduction)
+- 
 ![images (21)](https://github.com/user-attachments/assets/03df04a3-72a8-41ad-9e6e-d5d3741f39dd)
 
 
