@@ -3,6 +3,7 @@ A project exploring internal communication dynamics through network analysis and
 
 # Table of Content 
 - [Introduction](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#introduction)
+- [Research Questions](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#research-questions)
 - 
 ![images (21)](https://github.com/user-attachments/assets/03df04a3-72a8-41ad-9e6e-d5d3741f39dd)
 
