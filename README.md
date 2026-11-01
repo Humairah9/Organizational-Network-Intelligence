@@ -16,7 +16,7 @@ Using Python, I analysed the internal email network of a large European research
 
 ## Dashboard Preview
 
-![Bridges in the email network](outputs/figures/07_bridges.png)
+![Bridges in the email network](images/07_bridges.png)
 
 *Employee 160 is the biggest bridge by a wide margin, and almost all of the top bridges contact people outside their own department.*
 
@@ -73,9 +73,9 @@ The cleaned network has 20 weakly connected components, and the largest strongly
 
 Employee 160 leads both lists, receiving from about 12 times and emailing about 24 times as many people as the median employee. Seven employees (62, 86, 107, 121, 160, 183 and 434) appear in both top-10 lists, and in-degree and out-degree are strongly linked (Spearman 0.90), so heavy receivers are also heavy senders. All of the top five in each list are in Department 36.
 
-![Top communicators](outputs/figures/01_top_communicators.png)
+![Top communicators](images/01_top_communicators.png)
 
-![Top communicator subgraph](outputs/figures/01b_top_communicator_subgraph.png)
+![Top communicator subgraph](images/01b_top_communicator_subgraph.png)
 
 ### 2. Communities
 
@@ -83,7 +83,7 @@ Louvain detection found **28 communities** with a modularity of **0.41**, which 
 
 Only a few communities line up with one department. Community 6 is 97% Department 14 and community 7 is 97% Department 17, and community 3 is 73% Department 4. The largest community (190 people) is a mix, with no department above 12%. So the communication groups partly follow the org chart and partly cut across it.
 
-![Communities](outputs/figures/02_communities.png)
+![Communities](images/02_communities.png)
 
 ### 3. Within Departments or Across Them
 
@@ -95,7 +95,7 @@ Only a few communities line up with one department. Community 6 is 97% Departmen
 
 Most links (about 65%) cross departments, so this is a cross-functional organisation. But people still talk inside their own department about **7 times more** than chance would give, so departments do matter.
 
-![Intra vs inter](outputs/figures/03_intra_vs_inter.png)
+![Intra vs inter](images/03_intra_vs_inter.png)
 
 ### 4. Department Activity
 
@@ -109,7 +109,7 @@ Most links (about 65%) cross departments, so this is a cross-functional organisa
 
 Department 4 sends the most links in total, but it is also the largest. Department 36 stands out: with just 22 people it sends 2,318 links, about 105 per person against 17 to 35 for the other top departments, and it sends 429 more links than it receives. Departments 14 and 1 receive more than they send. Outside Department 36, activity mostly follows headcount.
 
-![Department flow](outputs/figures/04_department_flow.png)
+![Department flow](images/04_department_flow.png)
 
 ### 5. Information Flow
 
@@ -117,7 +117,7 @@ The largest strongly connected component holds **803 people (79.9% of the networ
 
 Information reaches almost anyone in two or three steps, so the network is efficient. The long paths of 5 to 6 steps involve very few pairs.
 
-![Shortest paths](outputs/figures/05_shortest_paths.png)
+![Shortest paths](images/05_shortest_paths.png)
 
 ### 6. Predicting Key Communicators
 
@@ -132,7 +132,7 @@ There are no timestamps, so I used a link-holdout test: features come from 70% o
 
 Past in-degree is by far the best predictor. A random forest with all features does not beat the one-feature baseline (0.979 against 0.982). Department alone is only slightly better than guessing and adds nothing once network features are included. Permutation importance agrees: in-degree (0.020 AUC drop) and PageRank (0.011) matter, while department, betweenness and clustering do not.
 
-![Feature importance](outputs/figures/06_prediction_importance.png)
+![Feature importance](images/06_prediction_importance.png)
 
 ### 7. Bridges
 
@@ -146,7 +146,7 @@ Past in-degree is by far the best predictor. A random forest with all features d
 
 Employee 160 has almost twice the betweenness of the next bridge. Six of the top ten bridges are in Department 36 and two (5 and 64) are in Department 25. Each of the top eight has more than 90% of contacts outside their own department and reaches 31 to 39 of the 42 departments. Betweenness tracks the number of contacts closely (Spearman 0.92), and 8 of the top 10 bridges are also in the top 10 by total degree, so the best-connected people are also the ones the network depends on. The network has 73 articulation points, people whose removal cuts someone off from the rest.
 
-![Bridges](outputs/figures/07_bridges.png)
+![Bridges](images/07_bridges.png)
 
 ### 8. Unusual Email Behaviour
 
@@ -157,7 +157,7 @@ Isolation Forest flagged **51 employees** (the top 5% most unusual profiles): 26
 
 A flag is a lead to look at, not evidence of a problem. Most are explained by role.
 
-![Anomalies](outputs/figures/08_anomalies.png)
+![Anomalies](images/08_anomalies.png)
 
 ## Conclusion
 
@@ -201,8 +201,8 @@ Overall, **a small, highly connected core in Department 36 carries a large share
 ├── Organizational_Network_Intelligence.ipynb   # analysis notebook (with outputs)
 ├── network_analysis.py                         # same analysis as a script
 ├── data/                                       # downloaded on first run (git-ignored)
+├── images/                                     # chart images used in this README
 └── outputs/
-    ├── figures/                                # chart images used in this README
     └── results_summary.md                      # headline numbers
 ```
 
