@@ -1,109 +1,197 @@
-# Organizational-Network-Intelligence
-A project exploring internal communication dynamics through network analysis and machine learning, aimed at uncovering hidden influencers, optimizing collaboration, and strengthening organizational insight.
+# Organizational Network Intelligence
 
-# Table of Content 
-- [Introduction](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#introduction)
-- [Research Questions](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#research-questions)
-- [Objectives](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#objectives)
-- [Data Used](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#dataset-used)
-- [Summary Statistics](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#summary-statistics)
-- [Methods Applied in the Analysis](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#methods-applied-in-the-analysis)
-- [Network Analysis Techniques](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#network-analysis-techniques)
-- [Key Findings and Analysis](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#key-findings-and-insights)
-- [Visualizations](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#visualizations)
-- [Conclusion](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#conclusion)
-- [Recommendations](https://github.com/Humairah9/Organizational-Network-Intelligence/blob/main/README.md#recommendations)
-  
-![images (21)](https://github.com/user-attachments/assets/03df04a3-72a8-41ad-9e6e-d5d3741f39dd)
+Using Python, I analysed the internal email network of a large European research institution (1,005 employees, 25,571 directed email links) to find out who the key communicators are, how the organisation clusters, and where information flows or gets stuck. I built the network with NetworkX, measured it with centrality, community-detection, shortest-path, machine-learning and anomaly-detection methods, and tested whether the org chart matches how people actually communicate. The main finding is that **[one-sentence headline finding, e.g. who really connects the organisation, filled in after running the notebook]**.
 
+## Table of Contents
 
+- [Dashboard Preview](#dashboard-preview)
+- [Introduction](#introduction)
+- [Data Overview and Dataset Structure](#data-overview-and-dataset-structure)
+- [Data Cleaning and Preparation](#data-cleaning-and-preparation)
+- [Analysis and Findings](#analysis-and-findings)
+- [Conclusion](#conclusion)
+- [Recommendations](#recommendations)
+- [Assumptions and Limitations](#assumptions-and-limitations)
+- [Tools and Repository Structure](#tools-and-repository-structure)
 
-# Introduction
-## Study Overview and Context
-This report presents an in-depth analysis of organizational email communication using network analysis techniques. The dataset under study consists of email exchanges among employees, with an additional dataset mapping individuals to their respective departments. Understanding communication patterns within an organization is crucial for optimizing collaboration, identifying key communicators, and detecting potential inefficiencies.
+## Dashboard Preview
 
-# Research Questions
-This study explores eight key questions:
-- Which individuals have the highest in-degree and out-degree in the network? What does this reveal about key communicators?
-- Are there distinct clusters or communities in the email network? How do these groups interact with one another?
-- Do employees communicate more within their department or across departments?
-- Which departments have the highest number of outgoing emails? How does this compare to their incoming emails?
-- What is the average shortest path between any two individuals? How efficiently does information flow through the network?
-- Can we predict which individuals are likely to become key communicators based on their email activity and department affiliation?
-- Which individuals serve as "bridges" between different groups? How critical are they for communication across departments?
-- Are there individuals who exhibit unusual email activity? Could these anomalies indicate urgent business situations or potential security threats?
+![Communities in the email network](outputs/figures/02_communities.png)
 
-# Objectives
-The primary objectives of this network analysis are:
-- To identify key communicators within the organization based on email exchange patterns.
-- To analyze the structure of communication networks and detect potential communities within the organization.
-- To assess the balance between intra-departmental and inter-departmental communication.
-- To evaluate communication efficiency and information flow across the network.
-- To use predictive modeling to identify employees likely to become key communicators.
-- To provide actionable recommendations for improving organizational communication and collaboration.
-- To detect any anomalies in email communication that may indicate security concerns or business-critical issues.
+*[One-line caption of the key takeaway from this chart.]*
 
-# Dataset Used
-The study utilizes two primary datasets. The first dataset i.e the  Email Communication Dataset, records email exchanges between employees, allowing the creation of a directed network where nodes represent employees and edges represent emails. This helps identify key communicators, bottlenecks, and overall email traffic patterns.
-The second dataset i.e the Department Label Dataset, maps employees to departments, enabling the analysis of intra- and inter-department communication. It helps identify departmental collaboration levels, key information hubs, and isolated departments within the network.
+## Introduction
 
-# Summary Statistics:
-The output provides key statistics about the email communication network. It consists of 1,005 employees (nodes) and 25,571 email interactions (edges). The network density is 0.0253, meaning that only about 2.53% of all possible connections between employees are utilized, indicating a sparse network where most employees do not communicate directly with every other employee.
+An organisation needs to know who its people rely on to get things done. Without that view, key communicators and the people who connect departments go unnoticed, and silos form without anyone seeing them.
 
-# Methods Applied in the Analysis
-Data Preprocessing and Exploration
-- From the analysis, it was found out that the first dataset contains 25,571 email interactions, with two columns: "Sender" and "Receiver," both represented as integer IDs. The second dataset consists of 1,005 employees, with each row mapping an employee (referred to as "Node") to a specific department. This dataset has two columns: "Node" and "Department," both stored as integers.  Both datasets have no missing values, ensuring completeness for network analysis.
-- The analysis of email communication across departments reveals significant variations in interaction levels. Certain departments exhibit higher engagement, both in terms of emails sent and received, indicating more active communication networks.
-- In terms of network structure, individual nodes demonstrate a clustering coefficient of 1.0, suggesting that their immediate connections are strongly interconnected, forming tightly knit groups. At the department level, clustering coefficients vary, with some departments, like Department 33, displaying a perfect clustering coefficient of 1.0, indicating highly interconnected internal communication. Others show lower values, suggesting weaker intra-departmental connectivity.
+This project analyses the SNAP `email-Eu-core` network using Python to answer practical questions about communication. The analysis aims to:
 
-# Network Analysis Techniques
-- Degree Centrality Analysis: is a fundamental measure in network analysis that helps identify key communicators based on the number of direct connections they have in the network. It was used to identified key communicators based on in-degree (emails received) and out-degree (emails sent).
-- Community Detection: is a crucial network analysis technique used to uncover groups of nodes (employees) that interact more frequently with each other than with the rest of the network.  The Louvain method was used to detect clusters in the email network.
-- Departmental Communication Analysis: analysis distinguishes between internal and cross-department interactions, ensuring efficient information flow and collaboration. It was used to differentiated intra-department and inter-department communications.
-- Shortest Path Analysis: it measures how quickly information spreads in the network. A shorter path means efficient communication, while longer paths indicate delays or bottlenecks. It was used to measure the efficiency of information flow within the network.
-- Predictive Modeling: uses a Random Forest classifier to identify key communicators based on network features, helping optimize information flow and leadership recognition. Random Forest classifier was applied to predict key communicators based on network features.
+- Identify the key communicators by emails received and sent.
+- Detect communities and test whether they match departments.
+- Measure how much communication stays within departments and how much crosses them.
+- Measure how efficiently information travels through the network.
+- Test whether future key communicators can be predicted.
+- Find the people who bridge groups and the people with unusual email behaviour.
 
-# Key Findings and Insights
-- The [graph](https://private-user-images.githubusercontent.com/187115319/443115767-beceae09-15da-431d-8174-fc9d1e026106.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDcxMjc4NzUsIm5iZiI6MTc0NzEyNzU3NSwicGF0aCI6Ii8xODcxMTUzMTkvNDQzMTE1NzY3LWJlY2VhZTA5LTE1ZGEtNDMxZC04MTc0LWZjOWQxZTAyNjEwNi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxM1QwOTEyNTVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hMDE5NDJmMWY3ODE3NjQ5NGJlODFmZmJiMjAxOTNjYjUyNjlkN2E3NDc2ZGUzYjI4NjNmYjliZWRjODUxMGQ4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.exK3oPDTqrlIhud1qiLfz97UwhyKWgQOYF024-pWWkk) highlights key communicators in an email network based on in-degree (emails received) and out-degree (emails sent):
-     - **Red nodes** (e.g., 42, 338) have the **highest in-degree**, indicating they **receive the most emails** and likely act as **central contacts or decision-makers**.
-     - **Green nodes** (e.g., 21, 303, 411, 424, 498) have the **highest out-degree**, meaning they **send the most emails**, suggesting roles like **team leads or coordinators**.
-     - Their **central network positions** show they are critical to **information flow**, while the presence of **clusters and bottlenecks** reveals how communication is structured and possibly constrained within the organization.
-- The [graph](https://private-user-images.githubusercontent.com/187115319/443115963-c8f78904-864e-4b6f-8da5-9a69a6730c76.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDcxMjgyNDAsIm5iZiI6MTc0NzEyNzk0MCwicGF0aCI6Ii8xODcxMTUzMTkvNDQzMTE1OTYzLWM4Zjc4OTA0LTg2NGUtNGI2Zi04ZGE1LTlhNjlhNjczMGM3Ni5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxM1QwOTE5MDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03OTdhOWJjMjc3ZGZmNzJmMWVjYzA5M2EwZjJhNWU4MzgxNmM0YjBkMzIxNDI5ZjI3MjUyYmY0OTJiZWY4ODNkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.txbOWVhwmSZFi_DOokg_AB1yoBrjblZ4TWhiE71qguo) applies the Louvain Method to detect communities in the email network, with each color representing a distinct group of closely connected employees.
-   - A central dense cluster indicates a highly connected core group, likely from the same department or key communicators across teams.
-   - Several isolated clusters surround the core, suggesting departmental divisions or specialized teams with limited external communication.
-   - The separation between clusters highlights potential silos and limited cross-department collaboration.
-- The [pie chart](https://private-user-images.githubusercontent.com/187115319/443117736-42d96b3f-95da-497f-91f4-3464264064ab.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDcxMjgzNjQsIm5iZiI6MTc0NzEyODA2NCwicGF0aCI6Ii8xODcxMTUzMTkvNDQzMTE3NzM2LTQyZDk2YjNmLTk1ZGEtNDk3Zi05MWY0LTM0NjQyNjQwNjRhYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxM1QwOTIxMDRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kMzQ3NTI5ZTdmNTA1MjA4NDI0MDQyOWM4NGQ1YzkxOWIyZTNiZmZiZGFiYTAyNGIwYTkzZmMyOGU3ZWIzMjdkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.5aJwncyZKSyUtWF2jG3YBGoR1rWIGHaq_QfasNfU--0) shows that 63.7% of emails are inter-departmental and 36.3% are intra-departmental, indicating more communication occurs across departments than within them. This suggests strong cross-team collaboration, though it may also point to a need for improved internal communication within departments.
-- The [chart](https://private-user-images.githubusercontent.com/187115319/443117902-5e3d1218-c966-4f6d-98fb-8ddf61dd1d9d.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDcxMjg0NTIsIm5iZiI6MTc0NzEyODE1MiwicGF0aCI6Ii8xODcxMTUzMTkvNDQzMTE3OTAyLTVlM2QxMjE4LWM5NjYtNGY2ZC05OGZiLThkZGY2MWRkMWQ5ZC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxM1QwOTIyMzJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0xNjlmYjEyMjFlMzQ2Yzk1YmEwOTI5MjA2MTIzYTIwNTY3YTVlMWVkYmQ3OGUwMzQ1YTFiMDg5MjMyZjVlZTE0JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.W__AzIIrClQDZX4gBeKZDX6h57FroKQqgUJUS8S6RHU) highlights the top 10 departments by email activity, with department 4 leading in outgoing emails, followed by department 36. Both are central to organizational communication, though department 36 sends more emails than it receives, while department 14 receives slightly more. Departments like 21, 7, and 10 show balanced communication, whereas departments 13 and 0 have the lowest activity. Overall, high outgoing email volumes tend to align with high incoming ones, indicating key communicators within the organization.
-- The [histogram](https://private-user-images.githubusercontent.com/187115319/443118253-78157da6-f54e-4266-9ae2-4fb32c406e39.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDcxMjg1NzksIm5iZiI6MTc0NzEyODI3OSwicGF0aCI6Ii8xODcxMTUzMTkvNDQzMTE4MjUzLTc4MTU3ZGE2LWY1NGUtNDI2Ni05YWUyLTRmYjMyYzQwNmUzOS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxM1QwOTI0MzlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NWU0OTA3NTE1OWI3NGI2YWI4ZDkxYjM4YmUzMTliOGJhNjYzNGM1MWQwZDM3MTkyYjg5MTZkNTViMzEzNGQ2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.NstiZLbhhUGSp_m8-nzZRYcMK3dPHBSNgYBUF7Esi4c) shows that most communication paths in the email network are 2 or 3 steps long, indicating efficient information flow and strong overall connectivity. This suggests that employees can typically reach one another with minimal intermediaries. However, the existence of longer paths points to some isolated individuals who require more steps to communicate, potentially slowing information exchange in those cases.
-- Overall, the graph confirms that email activity (especially receiving emails) is a strong predictor of influential communicators, while department affiliation has a much weaker influence.
+## Data Overview and Dataset Structure
 
-# Visualizations
+The data comes from [SNAP](https://snap.stanford.edu/data/email-Eu-core.html) and has two files. The network has **1,005 employees** and **25,571 directed links** across **42 departments**, with a density of 0.0253, so only about 2.5% of all possible connections are used.
 
-![image](https://github.com/user-attachments/assets/beceae09-15da-431d-8174-fc9d1e026106)
+A link `u -> v` means *u sent v at least one email*, so links are unique sender-receiver pairs, not a count of emails.
 
-![image](https://github.com/user-attachments/assets/c8f78904-864e-4b6f-8da5-9a69a6730c76)
+| File | Column | Description |
+|---|---|---|
+| email-Eu-core | Sender | ID of the employee who sent at least one email |
+| email-Eu-core | Receiver | ID of the employee who received it |
+| email-Eu-core-department-labels | Node | Employee ID |
+| email-Eu-core-department-labels | Department | Department the employee belongs to (0 to 41) |
 
-![download (2)](https://github.com/user-attachments/assets/e45728bb-1bf9-4b79-b970-0a92023a32dd)
+## Data Cleaning and Preparation
 
-![download (3)](https://github.com/user-attachments/assets/e40309c9-0754-4d18-a085-7fa6165f3271)
+| Issue | Treatment |
+|---|---|
+| Missing values | None found in either file |
+| Duplicate sender-receiver rows | [number] found [and removed / none] |
+| Self-loops (people emailing themselves) | [number] found; removed from network metrics, but intra/inter-department shares are reported both with and without them |
+| Data types | Checked, all integer IDs, no changes needed |
 
-![image](https://github.com/user-attachments/assets/42d96b3f-95da-497f-91f4-3464264064ab)
+All network metrics below use the cleaned graph of [N] links.
 
-![image](https://github.com/user-attachments/assets/5e3d1218-c966-4f6d-98fb-8ddf61dd1d9d)
+## Analysis and Findings
 
-![image](https://github.com/user-attachments/assets/78157da6-f54e-4266-9ae2-4fb32c406e39)
+### 1. Key Communicators
 
-![image](https://github.com/user-attachments/assets/df39ae09-e394-46d6-b855-3a57356e9054)
+*In-degree* is the number of different people who emailed someone; *out-degree* is the number of different people they emailed. Both are measured on the full network.
 
-# Conclusion 
-Summary of Insights
-- The network analysis identified key communicators and their roles within the organization.
-- Community detection revealed natural department-based clusters with some bridging individuals.
-- Inter-departmental communication was dominant, highlighting strong cross-functional collaboration.
-- Predictive modeling successfully identified potential future key communicators, with degree centrality being a strong indicator.
+| Rank | Top in-degree (employee, dept, value) | Top out-degree (employee, dept, value) |
+|---|---|---|
+| 1 | [ ] | [ ] |
+| 2 | [ ] | [ ] |
+| 3 | [ ] | [ ] |
 
-# Recommendations
-- Leverage key communicators for organizational announcements and knowledge-sharing.
-- Strengthen weakly connected departments by fostering more intra-departmental engagement.
-- Monitor anomalies in email activity to detect potential security threats or urgent business needs.
-- Enhance predictive modeling by incorporating temporal patterns in email interactions.
+[Interpretation: do the same people lead both lists? How far above the median do they sit?]
+
+![Top communicators](outputs/figures/01_top_communicators.png)
+
+![Top communicator subgraph](outputs/figures/01b_top_communicator_subgraph.png)
+
+### 2. Communities
+
+Louvain detection found **[N] communities** with a modularity of **[value]**. Agreement with the department labels is NMI **[value]** and ARI **[value]**, and **[share]%** of links run between communities.
+
+[Interpretation: do communities mirror departments or cut across them?]
+
+![Communities](outputs/figures/02_communities.png)
+
+### 3. Within Departments or Across Them
+
+| Measure | Share of links |
+|---|---|
+| Intra-department (including self-loops) | [ ]% |
+| Intra-department (excluding self-loops) | [ ]% |
+| Expected if links were random | [ ]% |
+
+[Interpretation: people stay in-department more or less than chance, and what that implies.]
+
+![Intra vs inter](outputs/figures/03_intra_vs_inter.png)
+
+### 4. Department Activity
+
+| Department | Headcount | Sent | Received |
+|---|---|---|---|
+| [ ] | [ ] | [ ] | [ ] |
+| [ ] | [ ] | [ ] | [ ] |
+| [ ] | [ ] | [ ] | [ ] |
+
+[Interpretation: which departments send more than they receive, and whether activity just follows headcount.]
+
+![Department flow](outputs/figures/04_department_flow.png)
+
+### 5. Information Flow
+
+The largest strongly connected component holds **[N] people ([share]% of the network)**. The average shortest path is **[value]** steps, the diameter is **[value]**, and **[share]%** of pairs can reach each other within 3 hops.
+
+![Shortest paths](outputs/figures/05_shortest_paths.png)
+
+### 6. Predicting Key Communicators
+
+There are no timestamps, so I used a link-holdout test: features come from 70% of links and the target is top-10% in-degree in the other 30%.
+
+| Model | ROC AUC | Average precision |
+|---|---|---|
+| Baseline: logistic on in-degree only | [ ] | [ ] |
+| Random forest: department only | [ ] | [ ] |
+| Random forest: network features | [ ] | [ ] |
+| Random forest: network + department | [ ] | [ ] |
+
+[Interpretation: does the forest beat the simple baseline, and does department add anything?]
+
+![Feature importance](outputs/figures/06_prediction_importance.png)
+
+### 7. Bridges
+
+| Employee | Department | Betweenness | Contacts | Cross-department share |
+|---|---|---|---|---|
+| [ ] | [ ] | [ ] | [ ] | [ ]% |
+| [ ] | [ ] | [ ] | [ ] | [ ]% |
+| [ ] | [ ] | [ ] | [ ] | [ ]% |
+
+Betweenness and number of contacts have a Spearman correlation of **[value]**, and the network has **[N]** articulation points.
+
+![Bridges](outputs/figures/07_bridges.png)
+
+### 8. Unusual Email Behaviour
+
+Isolation Forest flagged **[N]** employees (the top 5% most isolated profiles): **[n]** unusually active or broad and **[n]** unusually quiet or narrow.
+
+![Anomalies](outputs/figures/08_anomalies.png)
+
+## Conclusion
+
+[One sentence on the overall picture.]
+
+- **Key communicators:** [finding]
+- **Communities:** [finding]
+- **Departments:** [finding]
+- **Information flow:** [finding]
+- **Bridges and anomalies:** [finding]
+
+Overall, **[headline sentence]**.
+
+## Recommendations
+
+1. **Use key communicators for announcements and knowledge sharing.** [Name the roles or IDs and why.]
+2. **Support the bridges.** [Bridges carry cross-department traffic, so protect against over-reliance on them.]
+3. **Strengthen weakly connected departments.** [Name them from section 3 or 4.]
+4. **Look into flagged profiles.** Check the most unusual ones for a business explanation first, not a security one.
+5. **Add timestamps to the data.** Prediction and anomaly detection would be far stronger with dates and message volumes.
+
+## Assumptions and Limitations
+
+- The data is a public research dataset, not a live company system.
+- It is a single snapshot with no timestamps, so changes over time cannot be analysed.
+- Links record at least one email, so message volume and content are unknown.
+- Department is one flat label, with no seniority or role information.
+- Anomalies are statistical outliers, not evidence of wrongdoing.
+- The prediction test is a proxy for "becoming" a key communicator, since true future behaviour is not observed.
+
+## Tools and Repository Structure
+
+**Tools:** Python, Pandas, NetworkX, scikit-learn, Matplotlib, Seaborn, SciPy, Jupyter.
+
+```
+.
+├── README.md
+├── requirements.txt
+├── Organizational_Network_Intelligence.ipynb   # analysis notebook
+├── network_analysis.py                         # same analysis as a script
+├── data/                                       # downloaded on first run (git-ignored)
+└── outputs/
+    ├── figures/                                # chart images used in this README
+    ├── tables/                                 # CSV outputs
+    └── results_summary.md                      # headline numbers, auto-generated
+```
+
+## Author
+
+Aisha Hamza | [LinkedIn](https://www.linkedin.com/in/aisha-hamza-a21188187/) | [Email](mailto:hamzaaisha798@gmail.com)
