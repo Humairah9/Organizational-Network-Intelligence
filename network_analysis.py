@@ -42,7 +42,7 @@ sns.set_theme(style="whitegrid", context="notebook")
 SEED = 42
 ROOT = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 DATA_DIR = ROOT / "data"
-FIG_DIR = ROOT / "outputs" / "figures"
+FIG_DIR = ROOT / "images"
 TAB_DIR = ROOT / "outputs" / "tables"
 for d in (DATA_DIR, FIG_DIR, TAB_DIR):
     d.mkdir(parents=True, exist_ok=True)
